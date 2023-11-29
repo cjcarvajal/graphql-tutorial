@@ -38,3 +38,19 @@ The __money__ earn by the worker at the end of the month.
 """
 salary: Int
 ```
+
+- Object associations means you may return a response object that is composed by other objects, it's only needed to state the objects in your schema and define the proper resolvers.
+
+```
+type Player {
+	name: String
+	team: Team
+}
+
+type Team {
+	name: String
+	color: String
+}
+```
+
+- Resolvers **can be async!!!**
