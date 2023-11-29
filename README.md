@@ -22,8 +22,7 @@ A repo to learn graphql using Node.js, Express, Apollo Server, React, Apollo Cli
 ```
 // Nullable
 players: [Player]
-´´´
-
+```
 ```
 // Not Nullable
 playeres: [Player!]
