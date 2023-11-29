@@ -27,3 +27,5 @@ players: [Player]
 // Not Nullable
 playeres: [Player!]
 ```
+
+- Let's say you want to include a field in the schema that is not present in the data base definition, so you need to "resolve" the field. That's the use of field resolvers, which defines in the resolvers file how to return the value to the client. Also, you may define field resolvers to make some format expected by the client.
