@@ -13,3 +13,18 @@ A repo to learn graphql using Node.js, Express, Apollo Server, React, Apollo Cli
 - All request are made by the POST operation.
 - Nodemon is a functionality that will restart the server whenerver we change the code.
 - Bulma is a CSS lightweight library.
+- Null in graphql means the field is not available, if we want to restrict a field to be mandatory we must add the exclamation mark in the type, for example ```salary: Int!``.
+- Not nullable in GraphQL means that if the client request the value, the server must provided. It doesn't mean is mandatory to the client to request it.
+- To define an array as a response type, you should use [] in the elementType definition, for example:
+```player: Player``` to ```players: [Player]```, in the same way you should change the resolver from:
+```player: () => {//player object here}``` to ```player: () => {[//players objects here]}```.
+- Similary, to define nullability into an array response use the exclamation mark: 
+```
+// Nullable
+players: [Player]
+´´´
+
+```
+// Not Nullable
+playeres: [Player!]
+```
