@@ -29,3 +29,12 @@ playeres: [Player!]
 ```
 
 - Let's say you want to include a field in the schema that is not present in the data base definition, so you need to "resolve" the field. That's the use of field resolvers, which defines in the resolvers file how to return the value to the client. Also, you may define field resolvers to make some format expected by the client.
+- The field resolver function, always runs firts, which means it override other data for the same field.
+- To document the elementTypes the commentaries must be enclosed into """, you may use __ to enclose bold strings.
+
+```
+"""
+The __money__ earn by the worker at the end of the month.
+"""
+salary: Int
+```
