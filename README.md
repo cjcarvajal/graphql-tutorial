@@ -97,4 +97,5 @@ query ($alias: String!) {
 ```
 
 - Thanks to the query recursivity, GraphQL is a great tool to avoid multiple calls from the client to the server, nevertheless, IMHO, this may be a risk in the server, if not implemented right and with the proper cache use, it may harm the databases and core systems.
+- Even is possible to handle errors in your react app using states, is really cumbersone to put all that code for the GraphQL possible responses. So the **Apollo React Integration** may suit good for this issue.
 
