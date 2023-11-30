@@ -55,3 +55,21 @@ type Team {
 
 - Resolvers **can be async!!!**
 - GraphQL Request is a great tool for the client side to ease the creation of requests to a GraphQL server.
+- You may use gql, a feature from GraphQLCLient, you use the tag **gql** in your js files to highlight GraphQL syntax.
+
+```
+gql`
+    query {
+        // Your query fields here.
+    }`;
+```
+
+- You define an argument for your GraphQL query in the schema, using ```{returnVariable}({argName}:{ArgType}):{returnType}``` for example:
+
+```
+player(alias:String!): Player
+```
+
+- To get the argument from the query into the resolver, you should refer to the default arguments passed by default from the query ```(_root,args)```, as args is an array of arguments, you may use the deestructuration from java: 
+
+```player:(_root,{ alias }) => getPlayerByAlias(alias),```
