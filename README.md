@@ -73,3 +73,26 @@ player(alias:String!): Player
 - To get the argument from the query into the resolver, you should refer to the default arguments passed by default from the query ```(_root,args)```, as args is an array of arguments, you may use the deestructuration from java: 
 
 ```player:(_root,{ alias }) => getPlayerByAlias(alias),```
+
+- As in the query definition, you define the argument, it will be hardcoded if you don't define the variables to carry the data, so you need to create your query specifing a variable name in the client side, to see the differences check:
+
+```
+// Just argument definition no variable, hardcoded value for alias
+query {
+	Player(alias: "someString") {
+		realName
+		score
+	}
+}
+```
+
+```
+// Variable definition, no hardcode value
+query ($alias: String!) {
+	Player(alias: $alias) {
+		realName
+		score
+	}
+}
+```
+
