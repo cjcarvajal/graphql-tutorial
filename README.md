@@ -96,3 +96,5 @@ query ($alias: String!) {
 }
 ```
 
+- Thanks to the query recursivity, GraphQL is a great tool to avoid multiple calls from the client to the server, nevertheless, IMHO, this may be a risk in the server, if not implemented right and with the proper cache use, it may harm the databases and core systems.
+
