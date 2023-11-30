@@ -108,4 +108,35 @@ type Mutation {
 	createSomething(data1: String!, data2: String!): Something
 }
 ```
+- As in queries, you should have to pass values to a mutation operation, but let's say your object contains a lot of fields, it'll be cumbersome to declare individually each value, a better approach an a recommended practice is to create an **input** type which encloses the data you need for your mutation, instead of:
+
+```
+mutation ($alias: String!, $realName: String!, $score: Int!){
+	createPlayer(alias: $alias,realName: $realName, score: $Score){
+		.
+		.
+		.
+	}
+}
+```
+
+Better define an input type in your schema:
+
+```
+input CreatePlayerInput {
+	alias: String!, 
+	realName: String!,
+	score: Int!
+}
+```
+
+And use it in your mutation:
+
+```
+mutation ($input: CreatePlayerInput) {...}
+```
+
+
+
+
 
