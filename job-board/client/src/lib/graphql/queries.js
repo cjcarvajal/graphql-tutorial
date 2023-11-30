@@ -2,20 +2,33 @@ import { GraphQLClient, gql } from "graphql-request";
 
 const client = new GraphQLClient('http://localhost:9000/graphql');
 
-export async function getJobById(id) {
+export async function getCompanyById(id) {
     const query = gql`
-    query JobById($id:ID!){
-        job(id: $id) {
+        query CompanyById($id:ID!){
+            company(id:$id) {
             id
-            title
+            name
             description
-            date
-            company {
-                id
-                name
-            }
         }
     }`
+    const { company } = await client.request(query, { id });
+    return company;
+}
+
+export async function getJobById(id) {
+    const query = gql`
+        query JobById($id:ID!){
+            job(id: $id) {
+                id
+                title
+                description
+                date
+                company {
+                    id
+                    name
+                }
+            }
+        }`
     const { job } = await client.request(query, { id });
     return job;
 }
