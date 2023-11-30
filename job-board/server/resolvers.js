@@ -1,4 +1,4 @@
-import { createJob, getJob, getJobs, getJobsByCompanyId } from './db/jobs.js';
+import { createJob, deleteJob, getJob, getJobs, getJobsByCompanyId } from './db/jobs.js';
 import { getCompany } from './db/companies.js'
 import { GraphQLError } from 'graphql';
 
@@ -25,7 +25,12 @@ export const resolvers = {
         createJob: (_root, { input: { title, description } }) => {
             const companyId = "FjcJCHJALA4i"; //TODO Hardcoded id
             return createJob({ companyId, title, description });
-        }
+        },
+
+        deleteJob: (_root, { id }) => {
+            const job = deleteJob(id);
+            return job
+        },
     },
 
     Company: {

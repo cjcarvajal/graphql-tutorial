@@ -136,6 +136,8 @@ And use it in your mutation:
 mutation ($input: CreatePlayerInput) {...}
 ```
 
+- To complete CRUD operations; updates and deletes are also **mutations**.
+
 
 
 
