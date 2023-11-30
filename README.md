@@ -99,3 +99,13 @@ query ($alias: String!) {
 - Thanks to the query recursivity, GraphQL is a great tool to avoid multiple calls from the client to the server, nevertheless, IMHO, this may be a risk in the server, if not implemented right and with the proper cache use, it may harm the databases and core systems.
 - Even is possible to handle errors in your react app using states, is really cumbersone to put all that code for the GraphQL possible responses. So the **Apollo React Integration** may suit good for this issue.
 
+### Mutations
+
+- In GraphQL there's a clear separation bewteen read and write operations, the operation for write data into the server is a **Mutation**, you define a mutation in the schema by using this identifier instead of **Query**. Also, instead of using nouns (like in the query operation), you should use verbs which declares what your operation is going to do:
+
+```
+type Mutation {
+	createSomething(data1: String!, data2: String!): Something
+}
+```
+

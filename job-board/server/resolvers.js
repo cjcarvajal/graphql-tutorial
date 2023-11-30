@@ -1,4 +1,4 @@
-import { getJob, getJobs, getJobsByCompanyId } from './db/jobs.js';
+import { createJob, getJob, getJobs, getJobsByCompanyId } from './db/jobs.js';
 import { getCompany } from './db/companies.js'
 import { GraphQLError } from 'graphql';
 
@@ -19,6 +19,13 @@ export const resolvers = {
             return job;
         },
         jobs: () => getJobs(),
+    },
+
+    Mutation: {
+        createJob: (_root, { title, description }) => {
+            const companyId = "FjcJCHJALA4i"; //TODO Hardcoded id
+            return createJob({ companyId, title, description });
+        }
     },
 
     Company: {
