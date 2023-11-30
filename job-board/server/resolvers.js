@@ -1,4 +1,4 @@
-import { createJob, deleteJob, getJob, getJobs, getJobsByCompanyId } from './db/jobs.js';
+import { createJob, deleteJob, getJob, getJobs, getJobsByCompanyId, updateJob } from './db/jobs.js';
 import { getCompany } from './db/companies.js'
 import { GraphQLError } from 'graphql';
 
@@ -31,6 +31,10 @@ export const resolvers = {
             const job = deleteJob(id);
             return job
         },
+
+        updateJob: (_root, { input: { id, title, description } }) => {
+            return updateJob({ id, title, description });
+        }
     },
 
     Company: {

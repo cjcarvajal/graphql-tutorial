@@ -137,6 +137,7 @@ mutation ($input: CreatePlayerInput) {...}
 ```
 
 - To complete CRUD operations; updates and deletes are also **mutations**.
+- Apparantly, and until this point, due to the query sintax is on the client side, I think a refactor of somevalue in the server side should be a disaster. Although, is the same scenario that should happend with a REST architecture, where the server changes (breaks) the contract.
 
 
 
