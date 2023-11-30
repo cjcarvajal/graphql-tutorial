@@ -54,3 +54,4 @@ type Team {
 ```
 
 - Resolvers **can be async!!!**
+- GraphQL Request is a great tool for the client side to ease the creation of requests to a GraphQL server.
