@@ -138,7 +138,22 @@ mutation ($input: CreatePlayerInput) {...}
 
 - To complete CRUD operations; updates and deletes are also **mutations**.
 - Apparantly, and until this point, due to the query sintax is on the client side, I think a refactor of somevalue in the server side should be a disaster. Although, is the same scenario that should happend with a REST architecture, where the server changes (breaks) the contract.
+- Express-jwt is library to handle auth on server side using JWT.
+- To obtain the context into a resolver, you can pass the object as a third parameter, beside the \_root, the args for the query, you declare the **context**.
 
+```
+player:(_root,{ alias }, context) => {
+	//Do something with the context
+}
+```
+
+- To obtain the context, you declare it in the apolloMiddleware declaration:
+
+```app.use('/graphql',apolloMiddleware(apolloServer,{ context: getContext }));```
+
+- In the ```getContext``` function, you can refer to a req object which contains all the request information incoming to the server: ```getContext({req})```.
+- The context object can return a promise.
+- The strategy to follow in auth, is to extract from the request (from the context) the required data.
 
 
 
