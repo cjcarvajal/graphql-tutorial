@@ -8,7 +8,7 @@ export async function getJobs() {
 }
 
 export async function getJobsByCompanyId(companyId) {
-  return await getJobTable().select().where({companyId});
+  return await getJobTable().select().where({ companyId });
 }
 
 export async function getJob(id) {
@@ -27,12 +27,14 @@ export async function createJob({ companyId, title, description }) {
   return job;
 }
 
-export async function deleteJob(id) {
-  const job = await getJobTable().first().where({ id });
+export async function deleteJob(id, companyId) {
+  console.log(getJobTable().first().where({ id, companyId }).toSQL().toNative());
+  const job = await getJobTable().first().where({ id, companyId });
   if (!job) {
-    throw new Error(`Job not found: ${id}`);
+    return null;
   }
   await getJobTable().delete().where({ id });
+  console.log('job: ',job);
   return job;
 }
 

@@ -166,6 +166,8 @@ const client = new GraphQLClient('http://localhost:9000/graphql', {
 });
 ```
 
+- In Knex, a way to debug the queries is to log them, you do this by calling the **.toSQL()** method and then **.toNative()**.
+
 
 
 
