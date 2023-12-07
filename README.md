@@ -154,6 +154,17 @@ player:(_root,{ alias }, context) => {
 - In the ```getContext``` function, you can refer to a req object which contains all the request information incoming to the server: ```getContext({req})```.
 - The context object can return a promise.
 - The strategy to follow in auth, is to extract from the request (from the context) the required data.
+- Http headers are case-insensitive.
+- To configure auth on the client side, you can configure the headers for all request in the GraphQL configuration, by passing a second parameter (beside the url), and **options** object, and then specify the configuration element, in this scenario, the headers, lets see:
+
+```
+const client = new GraphQLClient('http://localhost:9000/graphql', {
+    headers: () => {
+    	//Get the auth header content here
+        return getAuthHeader();
+    },
+});
+```
 
 
 

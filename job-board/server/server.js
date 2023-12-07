@@ -17,7 +17,6 @@ app.post('/login', handleLogin);
 const typeDefs = await readFile('./schema.graphql', 'utf8');
 
 async function getContext({ req }) {
-  console.log('req.auth: ', req.auth);
   if (req.auth) {
     const user = await getUser(req.auth.sub);
     return { user }
