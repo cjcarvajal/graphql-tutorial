@@ -180,6 +180,15 @@ npm install @apollo/client
 
 ApolloClient cames with a gql library too, is similar to the one imported from GaphQLClient, but beside highlighting GraphQL code, it returns a DocumentNode instead of a string.
 
+For queries, you call ```.query``` from ApolloClient, it receives an options object with the query and the attributes. It returns a Promise, which contains (among many other info) a **data** object with the query result, so you made the call like:
+
+```
+const result = await apolloClient.request({
+	query,
+	variables: {//your variables here},
+	});
+```
+
 
 
 
