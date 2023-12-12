@@ -185,9 +185,38 @@ For queries, you call ```.query``` from ApolloClient, it receives an options obj
 ```
 const result = await apolloClient.request({
 	query,
-	variables: {//your variables here},
+	variables: { 
+			//your variables here 
+		},
 	});
 ```
+- Mutations are similar in ApolloClient, you just call the **mutate** method, which also receives a document node (from the gql string) and the variables:
+
+```
+apolloClient.mutate({
+	mutationQuery,
+	variables: {
+			//your variables here 
+		},
+	})
+```
+
+- To configure the auth on ApolloClient, you should use Links configuration, the ApolloClient execution strategy, chains calls from link to link, until the last link (called terminating link) makes the http request to the GraphQL server. So it's mandatory to create a link object configured to put the auth header in all requests. Also, it's required to chain the links in the proper order, for example:
+
+```
+ -----------      --------------      ----------
+| Auth Link | -> | Logging Link | -> | HttpLink |
+ -----------      --------------      ----------
+```
+
+```
+const someLink = new ApolloLink((operation, forward) => {
+	// Do the operations you need here, set the data into the 'operation'
+    return forward(operation); //Chain the outcoming operation with the next link.
+});
+```
+
+
 
 
 
