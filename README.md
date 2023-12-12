@@ -168,6 +168,19 @@ const client = new GraphQLClient('http://localhost:9000/graphql', {
 
 - In Knex, a way to debug the queries is to log them, you do this by calling the **.toSQL()** method and then **.toNative()**.
 
+### Apollo Client
+
+Apollo client ease the process of configuration in the client side, some of the useful features are the Out of the box configuration for caching and the data fetching to handle states inside React app avoiding the need to write specific code in each query.
+
+To add ApolloClient to your project you just simply use:
+
+```
+npm install @apollo/client
+```
+
+ApolloClient cames with a gql library too, is similar to the one imported from GaphQLClient, but beside highlighting GraphQL code, it returns a DocumentNode instead of a string.
+
+
 
 
 
