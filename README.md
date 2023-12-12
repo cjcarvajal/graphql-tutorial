@@ -216,6 +216,17 @@ const someLink = new ApolloLink((operation, forward) => {
 });
 ```
 
+- ApolloClient Cache, cleverly merge the data from separates queries but stores the objects separately for memory optimization, it's important to know, ApolloClient assigns an id to the objects in the cache, this id is composed from the type name (\__typename) and the object id, which means, you need to assign an ID to the GraphQL schema for the objects.
+
+- The cache behavior is configured by the **Fetch policies** these tells apollo client when to use data from the cache and when to obtain it from the network. The most common choices are **network-only** and **cache-first**. You can configure this on the apolloClient method or in the apolloClient configuration.
+
+```
+const { data } = await apolloClient.query({ 
+		query,
+		fetchPolicy: 'network-only',
+	 });
+```
+
 
 
 
