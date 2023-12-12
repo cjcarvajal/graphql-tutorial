@@ -13,7 +13,7 @@ const authLink = new ApolloLink((operation, forward) => {
     return forward(operation);
 });
 
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
     link: concat(authLink, httpLink),
     cache: new InMemoryCache(),
 });
@@ -36,8 +36,21 @@ const jobByIdQuery = gql`
             ...JobDetail
         }
     }
-    ${jobDetailFragment}
-    `;
+    ${jobDetailFragment}`;
+
+export const companyByIdQuery = gql`
+    query CompanyById($id:ID!){
+        company(id:$id) {
+        id
+        name
+        description
+        jobs {
+            id
+            date
+            title
+            } 
+        }
+    }`;
 
 export async function createJob({ title, description }) {
     const mutation = gql`
