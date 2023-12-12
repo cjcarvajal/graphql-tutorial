@@ -18,16 +18,44 @@ const apolloClient = new ApolloClient({
     cache: new InMemoryCache(),
 });
 
+const jobByIdQuery = gql`
+        query JobById($id:ID!){
+            job(id: $id) {
+                id
+                title
+                description
+                date
+                company {
+                    id
+                    name
+                }
+            }
+        }`
+
 export async function createJob({ title, description }) {
     const mutation = gql`
         mutation($input: CreateJobInput!) {
             job: createJob(input: $input) {
                 id
+                title
+                description
+                date
+                company {
+                    id
+                    name
+                }
             } 
         }`
     const { data } = await apolloClient.mutate({
         mutation,
-        variables: { input: { title, description } }
+        variables: { input: { title, description } },
+        update: (cache, { data }) => {
+            cache.writeQuery({
+                query: jobByIdQuery,
+                variables: { id: data.job.id },
+                data,
+            });
+        }
     })
 
     return data.job;
@@ -56,22 +84,10 @@ export async function getCompanyById(id) {
 }
 
 export async function getJobById(id) {
-    const query = gql`
-        query JobById($id:ID!){
-            job(id: $id) {
-                id
-                title
-                description
-                date
-                company {
-                    id
-                    name
-                }
-            }
-        }`
+
     const { data } = await apolloClient.query({
-        query,
-        variables: { id }
+        query: jobByIdQuery,
+        variables: { id },
     });
     return data.job;
 }
@@ -90,9 +106,9 @@ export async function getJobs() {
         } 
     }`;
 
-    const { data } = await apolloClient.query({ 
+    const { data } = await apolloClient.query({
         query,
         fetchPolicy: 'network-only',
-     });
+    });
     return data.jobs;
 }
