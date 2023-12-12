@@ -28,21 +28,23 @@ export async function createJob({ companyId, title, description }) {
 }
 
 export async function deleteJob(id, companyId) {
-  console.log(getJobTable().first().where({ id, companyId }).toSQL().toNative());
   const job = await getJobTable().first().where({ id, companyId });
+
   if (!job) {
     return null;
   }
+
   await getJobTable().delete().where({ id });
-  console.log('job: ',job);
   return job;
 }
 
-export async function updateJob({ id, title, description }) {
-  const job = await getJobTable().first().where({ id });
+export async function updateJob({ id, title, description, companyId }) {
+  const job = await getJobTable().first().where({ id, companyId });
+
   if (!job) {
-    throw new Error(`Job not found: ${id}`);
+    return null;
   }
+
   const updatedFields = { title, description };
   await getJobTable().update(updatedFields).where({ id });
   return { ...job, ...updatedFields };
