@@ -227,6 +227,48 @@ const { data } = await apolloClient.query({
 	 });
 ```
 
+- It's (of course) possible to modify the cache, this is useful to optimize the request made for the client to the server. The **mutation** accepts an update option, the code inside will be executed when the mutation completes. The **update** option accepts **cache** and **result**.
+
+- To write into the cache, you should use the **writeQuery**, it requires the gql query, an object **variables** that should contain the variables required for the gql query and the data to store.
+
+```
+const result = await apolloClient.mutate({
+        // The gql mutation query
+        mutation,
+        // The variables for mutation here
+        variables: {...},
+        update: (cache, result) => {
+            cache.writeQuery({
+            	// The query which stores the data into the cache
+                query: ...,
+                // The variables for the previous query
+                variables: { ... },
+                // The data to store
+                result.data,
+            });
+        }
+    })
+```
+
+- It may be cumbersome to duplicate code when you ask for the same variables in separates gql operations. There's where **fragments** are useful, fragments allows to declarate a set of fields to be reused into mutations and queries:
+
+```
+query {
+	players {
+		...PlayerDetail
+	}
+}
+
+fragment PlayerDetail on Player {
+	alias
+	realName
+	score
+}
+```
+
+
+
+
 
 
 
