@@ -277,6 +277,8 @@ const { data, loading, error } = useQuery(gqlQuery, {
   });
 ```
 
+- It's a good idea to write custom hooks, which simple are, function that encapsulates the **useQuery** call an create a custom response. Also is advisable to group the hooks in their own js file, instead of polluting the controller with this functions. For standard purpouses, you should call the hook function, starting with the word **use**.
+
 
 
 
