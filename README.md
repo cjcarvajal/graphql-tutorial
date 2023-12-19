@@ -265,8 +265,17 @@ fragment PlayerDetail on Player {
 	score
 }
 ```
+- ApolloClient came with a React integration to simplify the code, this integration allows to get rid of the states handling ```import { useEffect, useState } from 'react';```. Its required to:
 
+	- Wrap the app inside and **ApolloProvider** tag, and asign a property of a configured ApolloClient.
+	- Call the useQuery function, which receives the gql and the variables for such query, and returns the data, loading and error states.
 
+```
+const { data, loading, error } = useQuery(gqlQuery, {
+    variables: { //your variables here
+    	},
+  });
+```
 
 
 
