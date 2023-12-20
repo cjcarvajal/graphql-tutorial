@@ -302,6 +302,33 @@ const isError = result.error;
 const isLoading = result.loading;
 ```
 
+- To substract the code for **useMutation** and avoid polluting the view-controller components with GraphQL code, you write the hook a little different than the queries, by returning the required result objects (loading and/or error) and a function that will execute the call to the server (the mutateFunction).
+
+```
+export function useMutate() {
+
+    const [mutateFunction, { loading }] = useMutation(gqlmutation);
+
+    const mutationCall = async (//mutation variables here) => {
+        const { data: { responseObject } } = await mutate({
+            variables: { input: { //mutation variables here } },
+            update: (cache, { data }) => {
+                //Update the cache here
+            },
+        })
+        return responseObject;
+    };
+
+    return {
+        mutationCall,
+        loading,
+    }
+}
+
+//And to call the hook
+const { mutationCall, loading } = useMutate();
+mutationCall(//mutation variables here);
+```
 
 
 
