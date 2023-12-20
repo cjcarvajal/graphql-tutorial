@@ -279,6 +279,20 @@ const { data, loading, error } = useQuery(gqlQuery, {
 
 - It's a good idea to write custom hooks, which simple are, function that encapsulates the **useQuery** call an create a custom response. Also is advisable to group the hooks in their own js file, instead of polluting the controller with this functions. For standard purpouses, you should call the hook function, starting with the word **use**.
 
+- For mutations, you use a hook **useMutation** instead of useQuery, similarly in needs as the first parameter the gql DocumentNode. You should call the **useMutation** function which returns an array, where the first element is the **mutate function**, as the call to the server is not performed in this step, the mutate function, is async. In the call to the mutate function, you pass the the variables to mutate, this function also executes an **update** where it's possible to write in the cache.
+
+```
+const [mutateFunction] = useMutation(gqlmutation);
+
+const { data } = await mutateFunction({
+      variables: { // Your variables here
+      	},
+      update: (cache, { data }) => {
+        // Your code to write in the cache
+      },
+    });
+```
+
 
 
 
