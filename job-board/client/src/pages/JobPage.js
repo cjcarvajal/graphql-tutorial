@@ -6,13 +6,10 @@ import { useJob } from '../lib/graphql/hooks';
 
 function JobPage() {
   const { jobId } = useParams();
-  const { job, loading, error } = useJob(jobId);
+  const { job, loading } = useJob(jobId);
 
   if (loading) {
     return <div>Loading ...</div>
-  }
-  if (error) {
-    return <div className="has-text-danger">Data Unavailable</div>
   }
 
   return (

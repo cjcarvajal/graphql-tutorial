@@ -293,6 +293,15 @@ const { data } = await mutateFunction({
     });
 ```
 
+- The call to **useMutation** also returns a **result** object in the array, this object is useful to obtain the loading and error states, which may be used in the UX.
+
+```
+const [mutateFunction, result] = useMutation(gqlmutation);
+
+const isError = result.error;
+const isLoading = result.loading;
+```
+
 
 
 
