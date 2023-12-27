@@ -398,7 +398,6 @@ Both approaches have their tradeoffs, let's see:
 |Simpler to implement.              |More complex to implement.         |
 |Useful when data doesn't change too often. ("Often" meaning dependsof your business context).|Useful when there is new data all the time, for example on social network timelines (feeds).|
 |Work's well with the pagination UI |Work's well with infinite scrolling|
-|-----------------------------------|-----------------------------------|
 
 
 
