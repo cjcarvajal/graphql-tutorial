@@ -330,6 +330,32 @@ const { mutationCall, loading } = useMutate();
 mutationCall(//mutation variables here);
 ```
 
+### N + 1
+
+The N + 1 is a common problem that ocurrs when fetching data sources, let's say you have a table Player, and then a table Games, where there's a one to many relationship between them. Let's say you want to know all the Games for all the player, so you may do something like:
+
+```
+//This is a kind of pseudocode, nevermind the details
+const ids = 'Select id from Player';
+let games;
+for id in ids :
+	games = 'Select * from Game where player_id = ${id}';
+
+```
+
+In the previous snippet, you'll make 1 query to obtain all the players, and then N queries (1 for each player), this is highly inneficient.
+
+A great approach to tackle this is Batching, which will reduce this to only two queries:
+
+```
+//This is a kind of pseudocode, nevermind the details
+const ids = 'Select id from Player';
+
+// A Select IN will make only one request to the database
+games = 'Select * from Game where player_id IN $ids'
+```
+
+There's a npm utiliy called **DataLoader** which implements this pattern.
 
 
 
