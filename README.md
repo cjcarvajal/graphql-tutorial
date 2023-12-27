@@ -357,6 +357,52 @@ games = 'Select * from Game where player_id IN $ids'
 
 There's a npm utiliy called **DataLoader** which implements this pattern. Dataloaders uses a Cache per request, which means it detects if the query to the server has already been done, in which case it returns the same result from the previous query. To avoid this behavior you may create a new instance of dataloader for each request and passing it to the resolvers in the context, in the same fashion we pass the auth user.
 
+### Pagination
+
+Naturally, on an application which exposes data items to the user, when there's a lot of data to show you'll need to came with some UI (and backend) strategy of pagination. There are two common approaches, offset and cursor.
+
+The offset split the server data into "pages" with a defined limit of items, an offset (index) will be assigned to each page, so for a NEXT event on pagination, the client will retrieve the items for the corresponding offset:
+
+```
+ --------   -------
+| Item 1 |     |
+ --------      |
+ --------   Offset 0     
+| Item 2 |     |
+ --------      |
+            -------
+ --------   -------
+| Item 1 |     |
+ --------      |
+ --------   Offset 1     
+| Item 2 |     |
+ --------      |
+            -------
+ --------   -------
+| Item 1 |     |
+ --------      |
+ --------   Offset 2     
+| Item 2 |     |
+ --------      |
+            -------
+```
+
+The offset tends to repeat some data in the pagination if new items are added to the database, as this will move some items for a new offset.
+
+The other approach is a **cursor**, here you select an identifier for the items, and store this identifier as a cursor for the last shown element, when a new pagination is requested, the items with an identifier greater than the cursor will be retrieved.
+
+Both approaches have their tradeoffs, let's see:
+
+|              Offset				|               Cursor
+|-----------------------------------|-----------------------------------|
+|Simpler to implement.              |More complex to implement.         |
+|-----------------------------------|-----------------------------------|
+|Useful when data doesn't change    |Useful when there is new data all  |
+|too often. ("Often" meaning depends|the time, for example on social    |
+|of your business context).         |network timelines (feeds).         |
+|-----------------------------------|-----------------------------------|
+|Work's well with the pagination UI |Work's well with infinite scrolling|
+|-----------------------------------|-----------------------------------|
 
 
 
