@@ -4,6 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import { readFile } from 'node:fs/promises'
 import { authMiddleware, handleLogin } from './auth.js';
+import { createCompanyLoader } from './db/companies.js';
 import { getUser } from './db/users.js';
 import { resolvers } from './resolvers.js';
 
@@ -17,12 +18,13 @@ app.post('/login', handleLogin);
 const typeDefs = await readFile('./schema.graphql', 'utf8');
 
 async function getContext({ req }) {
+  const companyDataLoader = createCompanyLoader();
+  const context = { companyDataLoader };
   if (req.auth) {
-    const user = await getUser(req.auth.sub);
-    return { user }
+    context.user = await getUser(req.auth.sub);
   }
 
-  return {};
+  return context;
 }
 
 const apolloServer = new ApolloServer({ typeDefs, resolvers });

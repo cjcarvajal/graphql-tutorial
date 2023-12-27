@@ -355,7 +355,7 @@ const ids = 'Select id from Player';
 games = 'Select * from Game where player_id IN $ids'
 ```
 
-There's a npm utiliy called **DataLoader** which implements this pattern.
+There's a npm utiliy called **DataLoader** which implements this pattern. Dataloaders uses a Cache per request, which means it detects if the query to the server has already been done, in which case it returns the same result from the previous query. To avoid this behavior you may create a new instance of dataloader for each request and passing it to the resolvers in the context, in the same fashion we pass the auth user.
 
 
 
