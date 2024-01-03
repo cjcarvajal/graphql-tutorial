@@ -399,6 +399,22 @@ Both approaches have their tradeoffs, let's see:
 |Useful when data doesn't change too often. ("Often" meaning dependsof your business context).|Useful when there is new data all the time, for example on social network timelines (feeds).|
 |Work's well with the pagination UI |Work's well with infinite scrolling|
 
+- In order for pagination to works, the items should be ordered.
+- The LIMIT clause is a must in the query to handle pagination, you may add it as a parmeter to the GraphQL schema.
+
+```
+players (limit: Int): [Player!]
+```
+
+- To complete the pagination from the server side, you must add the **offset** clause, offset may be interpreted as how many records should be skipped on the query result. As a matter of fact, is common to name **limit** and **offset** parameters in the code as **first** (give me the first n records) and **skip** (skipping m records).
+- You will need the total count to control pagination, as after presenting the last record you should disable the UI to ask for more pages, a common way to do this is to return the count as a field in the GraphQL query.
+- To calculate the total number of pages is pretty simple just round up the division among the total count of items and your number of items per page:
+
+```
+const pages = Math.ceil(itemsCount/itemsPerPage);
+```
+
+
 
 
 

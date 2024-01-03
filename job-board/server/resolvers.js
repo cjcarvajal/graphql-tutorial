@@ -1,4 +1,4 @@
-import { createJob, deleteJob, getJob, getJobs, getJobsByCompanyId, updateJob } from './db/jobs.js';
+import { createJob, deleteJob, getJob, getJobs, getJobsByCompanyId, getJobsCount, updateJob } from './db/jobs.js';
 import { getCompany } from './db/companies.js'
 import { GraphQLError } from 'graphql';
 
@@ -18,7 +18,11 @@ export const resolvers = {
             }
             return job;
         },
-        jobs: () => getJobs(),
+        jobs: (_root, { limit, offset }) => {
+            const items = getJobs(limit, offset);
+            const count = getJobsCount();
+            return { items, count };
+        },
     },
 
     Mutation: {
