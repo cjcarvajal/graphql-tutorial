@@ -168,6 +168,24 @@ const client = new GraphQLClient('http://localhost:9000/graphql', {
 
 - In Knex, a way to debug the queries is to log them, you do this by calling the **.toSQL()** method and then **.toNative()**.
 
+#### Fragments
+
+- It may be cumbersome to duplicate code when you ask for the same variables in separates gql operations. There's where **fragments** are useful, fragments allows to declarate a set of fields to be reused into mutations and queries:
+
+```
+query {
+	players {
+		...PlayerDetail
+	}
+}
+
+fragment PlayerDetail on Player {
+	alias
+	realName
+	score
+}
+```
+
 ### Apollo Client
 
 Apollo client ease the process of configuration in the client side, some of the useful features are the Out of the box configuration for caching and the data fetching to handle states inside React app avoiding the need to write specific code in each query.
@@ -216,6 +234,8 @@ const someLink = new ApolloLink((operation, forward) => {
 });
 ```
 
+#### ApolloClient Cache
+
 - ApolloClient Cache, cleverly merge the data from separates queries but stores the objects separately for memory optimization, it's important to know, ApolloClient assigns an id to the objects in the cache, this id is composed from the type name (\__typename) and the object id, which means, you need to assign an ID to the GraphQL schema for the objects.
 
 - The cache behavior is configured by the **Fetch policies** these tells apollo client when to use data from the cache and when to obtain it from the network. The most common choices are **network-only** and **cache-first**. You can configure this on the apolloClient method or in the apolloClient configuration.
@@ -239,7 +259,7 @@ const result = await apolloClient.mutate({
         variables: {...},
         update: (cache, result) => {
             cache.writeQuery({
-            	// The query which stores the data into the cache
+            	// The GQL query which stores the data into the cache
                 query: ...,
                 // The variables for the previous query
                 variables: { ... },
@@ -250,21 +270,27 @@ const result = await apolloClient.mutate({
     })
 ```
 
-- It may be cumbersome to duplicate code when you ask for the same variables in separates gql operations. There's where **fragments** are useful, fragments allows to declarate a set of fields to be reused into mutations and queries:
+- Write a query result in the cache will overlap the query info, but sometimes you may need to update the query instead, Apollo Client Cache allows this using **updateQuery** instead of **writeQuery**.
 
 ```
-query {
-	players {
-		...PlayerDetail
-	}
-}
-
-fragment PlayerDetail on Player {
-	alias
-	realName
-	score
-}
+const result = await apolloClient.mutate({
+        .
+        .
+        .
+        update: (cache, result) => {
+            cache.updateQuery({
+            	// The GQL query which stores the data into the cache
+                query: ...,}, (infoStoredOnCache) => {
+                	return {
+                		//The infoStoredOnCache modified 
+                	};
+                });
+        }
+    });
 ```
+
+#### Apollo Client React Integration
+
 - ApolloClient came with a React integration to simplify the code, this integration allows to get rid of the states handling ```import { useEffect, useState } from 'react';```. Its required to:
 
 	- Wrap the app inside and **ApolloProvider** tag, and asign a property of a configured ApolloClient.
@@ -413,6 +439,10 @@ players (limit: Int): [Player!]
 ```
 const pages = Math.ceil(itemsCount/itemsPerPage);
 ```
+
+### Subscriptions
+
+
 
 
 
