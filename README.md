@@ -442,10 +442,57 @@ const pages = Math.ceil(itemsCount/itemsPerPage);
 
 ### Subscriptions
 
+Subscriptions are defined as another high level type in the schema, the only change is that by convention, they should be named as events.
 
+```
+type Subscription {
+  playerDeleted: Player
+}
+```
 
+Subscriptions runs on websocket protocol, in which case is necessary to use **GraphQL-WS-Server**, according to the official documentation, is recommended to use **graphql-ws** package.
 
+```
+ npm install graphql-ws ws @graphql-tools/schema
+```
 
+In contrast with other types, the **Subscriptions** resolvers doesn't return a single value, for which they aren't functions, instead, they are defined as objects. The resolver must notify the client, and must be implemented as an object that provides a subscribe method which in turn returns an **asyncIterable**. AsyncIterable is a protocol from javascript for objects that may return multiple values over time.
 
+For testing purpouses, you can use the **PubSub** implementation (for production use more fancy solutions, as Kafka or Redis). In order to write a subscription, you must use a string as a trigger name (PLAYER_DELETED in the example), and then use that string to make the publication when necessary.
 
+```
+Subscription: {
+    playerDeleted: {
+      subscribe: () => pubSub.asyncIterator('PLAYER_DELETED'),
+    },
+  }
+```
+
+```
+pubSub.publish('PLAYER_DELETED', { playerDeleted: player });
+```
+
+#### Subscriptions Client Side
+
+As a first operation, is required to configure the GraphQL WS-Client on the client side, this must be done by installing the proper module ```graphql-ws```, then creating a proper link to listen for the subscriptions and writing a function to check if an operation is a subscription or a normal query:
+
+```
+import {split} from '@apollo/client';
+import { Kind, OperationTypeNode } from 'graphql';
+import { createClient as createWsClient } from 'graphql-ws';
+
+const wsLink = new GraphQLWsLink(createWsClient({
+  url: 'ws://{the rest of your url here}',
+}));
+
+export const apolloClient = new ApolloClient({
+  link: split(isSubscription, wsLink, httpLink),
+});
+
+function isSubscription(operation) {
+  const definition = getMainDefinition(operation.query);
+  return definition.kind === Kind.OPERATION_DEFINITION
+    && definition.operation === OperationTypeNode.SUBSCRIPTION;
+}
+``` 
 

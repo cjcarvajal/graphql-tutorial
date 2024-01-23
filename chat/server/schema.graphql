@@ -11,3 +11,7 @@ type Message {
   user: String!
   text: String!
 }
+
+type Subscription {
+  messageAdded: Message
+}
