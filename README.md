@@ -496,3 +496,13 @@ function isSubscription(operation) {
 }
 ``` 
 
+- Live reloading on pages, are achieved through Web Sockets.
+
+A web socket connection, starts as an http connection, with some special request headers:
+
+```
+Connection: Upgrade
+Upgrade: websocket
+```
+
+The successful status code, will be **101 Switching Protocols**. In the ws section of the Network tab on Google Chrome Developer Tools, you may check the request for initiating a subscription and also the incoming packages from such subscription.
