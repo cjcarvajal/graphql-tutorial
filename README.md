@@ -506,3 +506,27 @@ Upgrade: websocket
 ```
 
 The successful status code, will be **101 Switching Protocols**. In the ws section of the Network tab on Google Chrome Developer Tools, you may check the request for initiating a subscription and also the incoming packages from such subscription.
+
+#### Subscription Auth
+
+- One way to authenticate the client, is to send the token as a **connectionParams** value when creating the **GraphQLWsLink**
+
+```
+const wSocketLink = new GraphQLWsLink(createWsClient({
+  url: 'ws://{the rest of your url here}',
+  connectionParams: () => ({ accessToken: {your auth token here}} }),
+}));
+```
+
+- On the server side, is necessary to build a specific context for the wsLink, since the **expressjwt** works for http connections, you should indicate how to obtain the context in the **useServer** from 'graphql-ws/lib/use/ws' call.
+
+```
+import { useServer } from 'graphql-ws/lib/use/ws';
+function getWsContext({ connectionParams }) {
+	// Get the access token
+	// Validate and decode the access token
+	// Return the payload
+}
+
+useWsServer({ schema, context: getWsContext }, wsServer);
+```
